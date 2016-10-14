@@ -1,0 +1,24 @@
+{
+    "name": "samwhelp/demo-convert-ucd",
+    "description": "UCD (Unicode Character Database) Convert Demo",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "samwhelp",
+            "email": "samwhelp@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+			"Ucd\\": "src/Ucd/",
+            "Demo\\": "src/Demo/"
+        }
+    },
+	"scripts": {
+		"main-usage": "./bin/usage.sh"
+    },
+    "require": {
+
+    }
+}
