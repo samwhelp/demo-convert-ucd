@@ -2,26 +2,7 @@
 
 namespace Demo\Converter\FromBlockSource;
 
-class BaseDirWalk extends Base {
-
-	public function init()
-	{
-		$this->_SourceDirPath = THE_VAR_DIR_PATH . '/source';
-		$this->_TargetDirPath = THE_VAR_DIR_PATH . '/json';
-
-		$this->_Unicode = \Ucd\Mapping\Unicode::newInstance()
-			->prep()
-		;
-
-		return $this;
-	}
-
-	public function prep()
-	{
-
-
-		return $this;
-	}
+abstract class BaseDirWalk extends Base {
 
 	public function run()
 	{

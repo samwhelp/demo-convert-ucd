@@ -2,12 +2,10 @@
 
 namespace Demo\Converter\FromBlockSource;
 
-class Base {
+abstract class Base {
 
 	protected $_Reader = null;
 	protected $_Writer = null;
-
-	protected $_Sheet = null;
 
 	protected $_SourceFilePath = 'source.txt';
 	protected $_TargetFilePath = 'target.txt';

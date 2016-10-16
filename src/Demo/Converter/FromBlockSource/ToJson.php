@@ -4,17 +4,26 @@ namespace Demo\Converter\FromBlockSource;
 
 class ToJson extends BaseDirWalk {
 
+	protected $_Unicode = null;
+
 	public function init()
 	{
 		$this->_SourceDirPath = THE_VAR_DIR_PATH . '/source';
 		$this->_TargetDirPath = THE_VAR_DIR_PATH . '/json';
 
-		$this->_Unicode = \Ucd\Mapping\Unicode::newInstance()
-			->prep()
-		;
-
 		return $this;
 	}
+
+	public function prep()
+	{
+		if ($this->_Unicode === null) {
+			$this->_Unicode = \Ucd\Mapping\Unicode::newInstance()
+				->prep()
+			;
+		}
+		return $this;
+	}
+
 
 	protected function runFile($file_path, $file_name, $dir_path)
 	{

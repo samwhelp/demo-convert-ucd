@@ -9,11 +9,6 @@ class ToHtml extends BaseDirWalk {
 		$this->_SourceDirPath = THE_VAR_DIR_PATH . '/source';
 		$this->_TargetDirPath = THE_VAR_DIR_PATH . '/html';
 
-		$this->_Unicode = \Ucd\Mapping\Unicode::newInstance()
-			->prep()
-		;
-
-
 		return $this;
 	}
 
