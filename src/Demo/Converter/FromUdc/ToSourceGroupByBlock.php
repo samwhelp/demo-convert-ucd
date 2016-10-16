@@ -4,24 +4,9 @@ namespace Demo\Converter\FromUdc;
 
 class ToSourceGroupByBlock extends Base {
 
-
-	public function init()
-	{
-
-		$this->_Unicode = \Ucd\Mapping\Unicode::newInstance()
-			->prep()
-		;
-
-		$this->_Block = \Ucd\Raw\Blocks::newInstance()
-			->prep()
-		;
-
-		$this->_UnicodeData = \Ucd\Raw\UnicodeData::newInstance()
-			->prep()
-		;
-
-		return $this;
-	}
+	protected $_Unicode = null;
+	protected $_Block = null;
+	protected $_UnicodeData = null;
 
 	public function prep()
 	{
@@ -31,23 +16,39 @@ class ToSourceGroupByBlock extends Base {
 			$this->_TargetDirPath = THE_VAR_DIR_PATH . '/source';
 		}
 
-		$this->_Block->load();
-		$this->_UnicodeData->load();
+		if ($this->_Unicode === null) {
+			$this->_Unicode = \Ucd\Mapping\Unicode::newInstance();
+		}
 
-		return $this;
+		if ($this->_Block === null) {
+			$this->_Block = \Ucd\Raw\Blocks::newInstance();
+		}
+
+		if ($this->_UnicodeData === null) {
+			$this->_UnicodeData = \Ucd\Raw\UnicodeData::newInstance();
+		}
+
+		if (file_exists($this->_TargetDirPath)) {
+			echo 'Source Dir Exist: ' . $this->_TargetDirPath . PHP_EOL;
+			echo 'Please remove or move it first.' . PHP_EOL;
+			return false;
+		}
+
+		$this->prepSaveDirPath();
+
+		return true;
 	}
 
 	public function run()
 	{
 
-		if (file_exists($this->_TargetDirPath)) {
-			echo 'Source Dir Exist: ' . $this->_TargetDirPath . PHP_EOL;
-			echo 'Please remove or move it first.' . PHP_EOL;
-			return;
+		if ($this->prep() === false) {
+			return false;
 		}
 
+		$this->_Block->load();
+		$this->_UnicodeData->load();
 
-		$this->prepSaveDirPath();
 
 		foreach ($this->_Block->toArray() as $idx => $item) {
 			$file = $this->_TargetDirPath . '/' . $this->findSaveFileName($item, $idx+1);
@@ -109,9 +110,12 @@ class ToSourceGroupByBlock extends Base {
 	{
 		$dir = $this->_TargetDirPath;
 		if (file_exists($dir)) {
-			return;
+			return true;
 		}
+
 		mkdir($dir, 0777, true);
+
+		return true;
 	}
 
 	protected function makeColumnLine($key, $val)

@@ -4,7 +4,6 @@
 
 	\Demo\Converter\FromUdc\ToSourceGroupByBlock::newInstance()
 		->setIsWithChar(true)
-		->prep()
 		->run()
 	;
 

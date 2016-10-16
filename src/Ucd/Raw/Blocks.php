@@ -6,11 +6,21 @@ class Blocks extends Base {
 
 	protected $_SourceFilePath = THE_ASSET_DIR_PATH . '/unicode/ucd/all/UCD/Blocks.txt';
 
-	public function load()
+	protected function prep()
 	{
+
 		if (!file_exists($this->_SourceFilePath)) {
 			echo('Source File Not Exists: ' . $this->_SourceFilePath . PHP_EOL);
-			return;
+			return false;
+		}
+
+		return true;
+	}
+
+	public function load()
+	{
+		if ($this->prep() === false) {
+			return false;
 		}
 
 		$lines = file($this->_SourceFilePath);
@@ -35,7 +45,7 @@ class Blocks extends Base {
 			$this->_List->push($item);
 		}
 
-		return $this;
+		return true;
 	}
 
 	protected function parseLine($line)

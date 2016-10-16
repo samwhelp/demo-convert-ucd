@@ -2,7 +2,23 @@
 <?php
 	require_once(__DIR__ . '/Boot.php');
 
+	$raw = \Ucd\Raw\UnicodeData::newInstance();
+
+	$raw->load();
+
+	//var_dump($raw->toArray());
+	var_dump($raw->getMap()->toArray());
+
 	return;
+
+	$raw = \Ucd\Raw\Blocks::newInstance();
+
+	$raw->load();
+
+	var_dump($raw->toArray());
+
+	return;
+
 
 	$file_path = THE_VAR_DIR_PATH . '/source/0001-0000-007F-Basic Latin.txt';
 	$reader = \Demo\Reader\Source::newInstance()
@@ -24,25 +40,5 @@
 		->prep()
 		->run()
 	;
-
-	return;
-
-	$raw = \Ucd\Raw\UnicodeData::newInstance()
-		->prep()
-		->load()
-	;
-
-	//var_dump($raw->toArray());
-	var_dump($raw->getMap()->toArray());
-
-	return;
-
-	$raw = \Ucd\Raw\Blocks::newInstance()
-		->prep()
-		->load()
-	;
-
-	var_dump($raw->toArray());
-
 
 	return;

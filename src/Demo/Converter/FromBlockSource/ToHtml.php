@@ -4,13 +4,8 @@ namespace Demo\Converter\FromBlockSource;
 
 class ToHtml extends BaseDirWalk {
 
-	public function init()
-	{
-		$this->_SourceDirPath = THE_VAR_DIR_PATH . '/source';
-		$this->_TargetDirPath = THE_VAR_DIR_PATH . '/html';
-
-		return $this;
-	}
+	protected $_SourceDirPath = THE_VAR_DIR_PATH . '/source';
+	protected $_TargetDirPath = THE_VAR_DIR_PATH . '/html';
 
 	protected function runFile($file_path, $file_name, $dir_path)
 	{
@@ -18,24 +13,25 @@ class ToHtml extends BaseDirWalk {
 
 		$reader = \Demo\Reader\Source::newInstance()
 			->setFilePath($file_path)
-			->prep()
 		;
 
-		//var_dump($reader->load());
-		//var_dump($reader->getData());
+		if ($reader->load() === false) {
+			return fasle;
+		}
 
-		$data = $reader->load();
+		$data = $reader->getData();
 
 		$target_file_path = $this->_TargetDirPath . '/' . $file_name . '.html';
 
 		$writer = \Demo\Writer\Html::newInstance()
 			->setFilePath($target_file_path)
 			->setData($data)
-			->prep()
 		;
 
 
 		$writer->save();
+
+		return true;
 
 	}
 

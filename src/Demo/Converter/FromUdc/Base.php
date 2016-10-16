@@ -4,44 +4,46 @@ namespace Demo\Converter\FromUdc;
 
 class Base {
 
-	protected $_Reader = null;
-	protected $_Writer = null;
-
-	protected $_Sheet = null;
-
-	protected $_SourceFilePath = 'source.txt';
-	protected $_TargetFilePath = 'target.txt';
-	protected $_SourceDirPath = __DIR__;
-	protected $_TargetDirPath = __DIR__;
-
 	public static function newInstance()
 	{
-		return new static(); //http://php.net/manual/en/language.oop5.late-static-bindings.php
+		//http://php.net/manual/en/language.oop5.late-static-bindings.php
+        return new static();
 	}
 
 	public function __construct()
 	{
+		//http://php.net/manual/en/language.oop5.decon.php
 		$this->init();
 	}
 
-	public function init()
+	protected function init()
 	{
-
-		return $this;
+		return true;
 	}
 
-	public function prep()
+	protected function prep()
 	{
-
-		return $this;
+		return true;
 	}
 
 	public function run()
 	{
 		//var_dump(__METHOD__);
+		
+		if ($this->prep() === false) {
+			return false;
+		}
 
-		return $this;
+		return true;
 	}
 
+	protected $_Reader = null;
+	protected $_Writer = null;
+
+	protected $_SourceFilePath = 'source.txt';
+	protected $_TargetFilePath = 'target.txt';
+
+	protected $_SourceDirPath = __DIR__;
+	protected $_TargetDirPath = __DIR__;
 
 } // End Class

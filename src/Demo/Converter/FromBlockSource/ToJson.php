@@ -4,24 +4,18 @@ namespace Demo\Converter\FromBlockSource;
 
 class ToJson extends BaseDirWalk {
 
+	protected $_SourceDirPath = THE_VAR_DIR_PATH . '/source';
+	protected $_TargetDirPath = THE_VAR_DIR_PATH . '/json';
+
 	protected $_Unicode = null;
 
-	public function init()
-	{
-		$this->_SourceDirPath = THE_VAR_DIR_PATH . '/source';
-		$this->_TargetDirPath = THE_VAR_DIR_PATH . '/json';
-
-		return $this;
-	}
-
-	public function prep()
+	protected function prep()
 	{
 		if ($this->_Unicode === null) {
-			$this->_Unicode = \Ucd\Mapping\Unicode::newInstance()
-				->prep()
-			;
+			$this->_Unicode = \Ucd\Mapping\Unicode::newInstance();
 		}
-		return $this;
+
+		return true;
 	}
 
 
@@ -31,13 +25,13 @@ class ToJson extends BaseDirWalk {
 
 		$reader = \Demo\Reader\Source::newInstance()
 			->setFilePath($file_path)
-			->prep()
 		;
 
-		//var_dump($reader->load());
-		//var_dump($reader->getData());
+		if ($reader->load() === false) {
+			return fasle;
+		}
 
-		$data = $reader->load();
+		$data = $reader->getData();
 
 		$list = array();
 
@@ -59,6 +53,8 @@ class ToJson extends BaseDirWalk {
 			mkdir($this->_TargetDirPath, 0777, true);
 		}
 		file_put_contents($file, $text);
+
+		return true;
 
 	}
 

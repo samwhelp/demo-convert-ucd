@@ -4,13 +4,15 @@ namespace Demo\Writer;
 
 class Html extends Base {
 
-	public function init()
-	{
-		$this->_Unicode = \Ucd\Mapping\Unicode::newInstance()
-			->prep()
-		;
+	protected $_Unicode = null;
 
-		return $this;
+	protected function prep()
+	{
+		if ($this->_Unicode === null) {
+			$this->_Unicode = \Ucd\Mapping\Unicode::newInstance();
+		}
+
+		return true;
 	}
 
 	public function render()

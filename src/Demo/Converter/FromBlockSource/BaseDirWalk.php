@@ -6,7 +6,13 @@ abstract class BaseDirWalk extends Base {
 
 	public function run()
 	{
+		if ($this->prep() === false) {
+			return false;
+		}
+
 		$this->runDir($this->_SourceDirPath);
+
+		return true;
 	}
 
 	protected function runDir($dir_path)

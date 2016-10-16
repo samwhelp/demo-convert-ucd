@@ -6,36 +6,40 @@ class Base {
 
 	public static function newInstance()
 	{
-		return new static(); //http://php.net/manual/en/language.oop5.late-static-bindings.php
+		//http://php.net/manual/en/language.oop5.late-static-bindings.php
+        return new static();
 	}
 
 	public function __construct()
 	{
+		//http://php.net/manual/en/language.oop5.decon.php
 		$this->init();
 	}
 
-	public function init()
+	protected function init()
 	{
-
-		return $this;
+		return true;
 	}
 
-	public function prep()
-	{
-
-		return $this;
-	}
-
-	public function load()
+	protected function prep()
 	{
 		if (!file_exists($this->_FilePath)) {
 			echo('Source File Not Exists: ' . $this->_FilePath . PHP_EOL);
 			return;
 		}
 
+		return true;
+	}
+
+	public function load()
+	{
+		if ($this->prep() === false) {
+			return false;
+		}
+
 		$this->_Data = $this->parse();
 
-		return $this->_Data;
+		return true;
 	}
 
 	public function parse()

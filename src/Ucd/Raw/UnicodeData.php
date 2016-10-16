@@ -5,15 +5,27 @@ namespace Ucd\Raw;
 class UnicodeData extends Base {
 
 	protected $_SourceFilePath = THE_ASSET_DIR_PATH . '/unicode/ucd/all/UCD/UnicodeData.txt';
+	protected $_Unicode = null;
+
+	protected function prep()
+	{
+		if ($this->_Unicode === null) {
+			$this->_Unicode = \Ucd\Mapping\Unicode::newInstance();
+		}
+
+		if (!file_exists($this->_SourceFilePath)) {
+			echo('Source File Not Exists: ' . $this->_SourceFilePath . PHP_EOL);
+			return false;
+		}
+
+		return true;
+	}
 
 	public function load()
 	{
-		if (!file_exists($this->_SourceFilePath)) {
-			echo('Source File Not Exists: ' . $this->_SourceFilePath . PHP_EOL);
-			return;
+		if ($this->prep() === false) {
+			return false;
 		}
-
-		$this->_Unicode = \Ucd\Mapping\Unicode::newInstance();
 
 		$lines = file($this->_SourceFilePath);
 
@@ -34,14 +46,16 @@ class UnicodeData extends Base {
 			$this->_Map->put($item->ref(0), $item);
 		}
 
-		return $this;
+		return true;
 	}
 
 	protected function parseLine($line)
 	{
 		$rtn = \Ucd\Data\Raw\UnicodeDataItem::newInstance();
+
 		$list = explode(';', $line);
 		$rtn->setRaw($list);
+
 		return $rtn;
 	}
 } // End Class
