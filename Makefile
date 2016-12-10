@@ -3,28 +3,39 @@ THE_MAKEFILE_FILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 THE_BASE_DIR_PATH := $(abspath $(dir $(THE_MAKEFILE_FILE_PATH)))
 THE_BIN_DIR_PATH := $(THE_BASE_DIR_PATH)/bin
 
-.PHONY: usage asset test source source-with-char xml html
+PATH := $(THE_BIN_DIR_PATH):$(PATH)
 
-usage:
-	$(THE_BIN_DIR_PATH)/usage.sh
+default: help
+.PHONY: default
+
+help:
+	@help.sh
+.PHONY: help
 
 asset:
-	$(THE_BIN_DIR_PATH)/asset.sh
+	@asset.sh
+.PHONY: help
 
 test:
-	$(THE_BIN_DIR_PATH)/test.php
+	@test.php
+.PHONY: test
 
 source:
-	$(THE_BIN_DIR_PATH)/source.php
+	@source.php
+.PHONY: source
 
 source-with-char:
-	$(THE_BIN_DIR_PATH)/source-with-char.php
+	@source-with-char.php
+.PHONY: source-with-char
 
 json:
-	$(THE_BIN_DIR_PATH)/json.php
+	@json.php
+.PHONY: json
 
 xml:
-	$(THE_BIN_DIR_PATH)/xml.php
+	@xml.php
+.PHONY: xml
 
 html:
-	$(THE_BIN_DIR_PATH)/html.php
+	@html.php
+.PHONY: html
