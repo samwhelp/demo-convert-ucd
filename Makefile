@@ -14,7 +14,7 @@ help:
 
 asset:
 	@asset.sh
-.PHONY: help
+.PHONY: asset
 
 test:
 	@test.php
